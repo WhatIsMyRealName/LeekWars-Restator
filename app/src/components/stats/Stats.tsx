@@ -1,29 +1,64 @@
 import { EntityStats } from "@/types/EntityStats";
 import { statsStyles } from "./Stats.styles";
 import Level from "../level/Level";
+import {
+  updateStatsOnAddCapital,
+  updateStatsOnRemoveCapital,
+} from "@/lib/stats/StatsHelper";
+import StatButton from "./stat-button/StatButton";
 
 export default function Stats({
-  base,
-  invested,
-  bonus,
-  total,
-  capital,
+  baseStats,
+  investedStats,
+  bonusStats,
+  totalStats,
+  totalCapital,
+  investedCapital,
   level,
   setLevel,
+  onInvestedCapitalChange,
 }: {
-  base: EntityStats;
-  invested: EntityStats;
-  bonus: EntityStats;
-  total: EntityStats;
-  capital: number;
+  baseStats: EntityStats;
+  investedStats: EntityStats;
+  bonusStats: EntityStats;
+  totalStats: EntityStats;
+  totalCapital: number;
+  investedCapital: number;
   level: number;
   setLevel: (level: number) => void;
+  onInvestedCapitalChange: (
+    newEntityInvestedStats: EntityStats,
+    newInvestedCapital: number
+  ) => void;
 }) {
+  const onAddCapital = (statKey: keyof EntityStats, amount: number) => {
+    const { newInvestedStats, newInvestedCapital } = updateStatsOnAddCapital(
+      statKey,
+      amount,
+      investedStats,
+      investedCapital
+    );
+    onInvestedCapitalChange(newInvestedStats, newInvestedCapital);
+  };
+
+  const onRemoveCapital = (statKey: keyof EntityStats, amount: number) => {
+    const { newInvestedStats, newInvestedCapital } = updateStatsOnRemoveCapital(
+      statKey,
+      amount,
+      investedStats,
+      investedCapital
+    );
+
+    onInvestedCapitalChange(newInvestedStats, newInvestedCapital);
+  };
+
   return (
     <div style={statsStyles.container}>
       <h3 style={statsStyles.title}>
         <Level level={level} setLevel={setLevel} />
-        <span style={statsStyles.capitalBadge}>{capital} capital</span>
+        <span style={statsStyles.capitalBadge}>
+          {totalCapital - investedCapital} / {totalCapital} capital
+        </span>
       </h3>
       <table style={statsStyles.table}>
         <thead style={statsStyles.tableHeader}>
@@ -36,7 +71,7 @@ export default function Stats({
           </tr>
         </thead>
         <tbody style={statsStyles.tableBody}>
-          {Object.keys(base).map((statKey) => {
+          {Object.keys(baseStats).map((statKey) => {
             const key = statKey as keyof EntityStats;
 
             return (
@@ -49,10 +84,50 @@ export default function Stats({
                   />
                   {key}
                 </td>
-                <td style={statsStyles.valueCell}>{base[key]}</td>
-                <td style={statsStyles.valueCell}>{invested[key]}</td>
-                <td style={statsStyles.valueCell}>{bonus[key]}</td>
-                <td style={statsStyles.totalCell}>{total[key]}</td>
+                <td style={statsStyles.valueCell}>{baseStats[key]}</td>
+                <td style={statsStyles.investedCell}>
+                  <StatButton
+                    amount={1}
+                    name="minus"
+                    disabled={false}
+                    onClick={() => onRemoveCapital(key, 1)}
+                  />
+                  <StatButton
+                    amount={10}
+                    name="minus"
+                    disabled={false}
+                    onClick={() => onRemoveCapital(key, 10)}
+                  />
+                  <StatButton
+                    amount={100}
+                    name="minus"
+                    disabled={false}
+                    onClick={() => onRemoveCapital(key, 100)}
+                  />
+                  <div style={statsStyles.investedValue(investedStats[key])}>
+                    {investedStats[key]}
+                  </div>
+                  <StatButton
+                    amount={1}
+                    name="add"
+                    disabled={false}
+                    onClick={() => onAddCapital(key, 1)}
+                  />
+                  <StatButton
+                    amount={10}
+                    name="add"
+                    disabled={false}
+                    onClick={() => onAddCapital(key, 10)}
+                  />
+                  <StatButton
+                    amount={100}
+                    name="add"
+                    disabled={false}
+                    onClick={() => onAddCapital(key, 100)}
+                  />
+                </td>
+                <td style={statsStyles.valueCell}>{bonusStats[key]}</td>
+                <td style={statsStyles.totalCell}>{totalStats[key]}</td>
               </tr>
             );
           })}

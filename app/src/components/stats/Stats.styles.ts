@@ -12,7 +12,10 @@ export interface IStatsStyles {
   bodyRow: CSSProperties;
   statNameCell: CSSProperties;
   statIcon: CSSProperties;
+  investedCell: CSSProperties;
+  investedValue: (value: number) => CSSProperties;
   valueCell: CSSProperties;
+  inputCell: CSSProperties;
   totalCell: CSSProperties;
   capitalBadge: CSSProperties;
 }
@@ -35,12 +38,12 @@ export const statsStyles: IStatsStyles = {
     fontWeight: "700",
     textAlign: "center" as const,
     margin: "0",
-    padding: "24px 24px 16px 24px",
+    padding: 24,
     textShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
     letterSpacing: "0.5px",
     display: "flex",
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "start",
     gap: "12px",
     flexWrap: "wrap" as const,
   },
@@ -126,6 +129,37 @@ export const statsStyles: IStatsStyles = {
     border: "none",
     borderRight: "1px solid rgba(0, 0, 0, 0.05)",
     transition: "all 0.3s ease",
+  },
+  investedCell: {
+    padding: "16px 12px",
+    textAlign: "center" as const,
+    fontSize: "16px",
+    fontWeight: "600",
+    color: "#2c3e50",
+    backgroundColor: "#ede9e9",
+    borderRadius: "8px",
+    border: "none",
+    transition: "all 0.3s ease",
+    display: "flex",
+    // gap: "2px",
+    justifyContent: "space-between",
+  },
+  investedValue: (value: number) => ({
+    marginLeft: 4,
+    marginRight: 4,
+    fontWeight: value > 0 ? "700" : "600",
+    width: "40px",
+  }),
+  inputCell: {
+    textAlign: "center" as const,
+    fontSize: "16px",
+    fontWeight: "600",
+    color: "#2c3e50",
+    backgroundColor: "rgba(255, 255, 255, 0.7)",
+    border: "none",
+    borderRight: "1px solid rgba(0, 0, 0, 0.05)",
+    transition: "all 0.3s ease",
+    width: "80px",
   },
   totalCell: {
     padding: "16px 12px",

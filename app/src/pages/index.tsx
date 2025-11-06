@@ -8,7 +8,7 @@ import { Weapon } from "@/types/Weapon";
 import { EntityStats } from "@/types/EntityStats";
 import Stats from "@/components/stats/Stats";
 import { useMemo, useState } from "react";
-import Level from "@/components/level/Level";
+import { EMPTY_STATS } from "@/constants/Stats.constants";
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -26,7 +26,9 @@ const getWeapons: () => Weapon[] = () => {
 
 export default function Home() {
   const [level, setLevel] = useState<number>(1);
+  const [investedStats, setInvestedStats] = useState<EntityStats>(EMPTY_STATS);
   const [investedCapital, setInvestedCapital] = useState<number>(0);
+
   // Convert the weapons object to a typed array
   const weapons: Weapon[] = getWeapons();
 
@@ -36,15 +38,14 @@ export default function Home() {
   // Example: Find a specific weapon by name
   const pistol = weapons.find((weapon) => weapon.name === "pistol");
 
-  const capital = useMemo(() => {
+  const totalCapital = useMemo(() => {
     return (
       50 +
       5 * (level - 1) +
       Math.floor(level / 100) * 45 +
-      Math.floor((level - 1) / 300) * 95 -
-      investedCapital
+      Math.floor((level - 1) / 300) * 95
     );
-  }, [level, investedCapital]);
+  }, [level]);
 
   const baseStats: EntityStats = {
     life: 100 + (level - 1) * 3,
@@ -59,21 +60,6 @@ export default function Home() {
     ram: 6,
     tp: 10,
     mp: 3,
-  };
-
-  const investedStats: EntityStats = {
-    life: 200,
-    strength: 0,
-    wisdom: 0,
-    agility: 0,
-    resistance: 0,
-    science: 0,
-    magic: 0,
-    frequency: 0,
-    cores: 0,
-    ram: 0,
-    tp: 0,
-    mp: 0,
   };
 
   const bonusStats: EntityStats = {
@@ -108,6 +94,14 @@ export default function Home() {
     mp: baseStats.mp + investedStats.mp + bonusStats.mp,
   };
 
+  const onInvestedCapitalChange = (
+    newInvested: EntityStats,
+    investedCapital: number
+  ) => {
+    setInvestedCapital(investedCapital);
+    setInvestedStats(newInvested);
+  };
+
   return (
     <>
       <Head>
@@ -121,13 +115,15 @@ export default function Home() {
       >
         <main className={styles.main}>
           <Stats
-            base={baseStats}
-            invested={investedStats}
-            bonus={bonusStats}
-            total={totalStats}
-            capital={capital}
+            baseStats={baseStats}
+            investedStats={investedStats}
+            bonusStats={bonusStats}
+            totalStats={totalStats}
+            totalCapital={totalCapital}
+            investedCapital={investedCapital}
             level={level}
             setLevel={setLevel}
+            onInvestedCapitalChange={onInvestedCapitalChange}
           />
 
           <WeaponImage weaponName="gazor" />

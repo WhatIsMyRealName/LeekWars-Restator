@@ -10,7 +10,6 @@ export interface ILevelStyles {
 
 export const levelStyles: ILevelStyles = {
   container: {
-    marginBottom: "24px",
     padding: "24px",
     background: "linear-gradient(135deg, #667eea 0%, #764ba2 100%)",
     borderRadius: "16px",
