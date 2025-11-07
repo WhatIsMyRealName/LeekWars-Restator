@@ -24,6 +24,7 @@ export const castableCardStyles: ICastableCardStyles = {
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
     transition: "all 0.2s ease",
     cursor: "pointer",
+    position: "relative",
     color: "#2c3e50",
     gap: "8px",
     display: "flex",

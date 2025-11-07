@@ -1,10 +1,15 @@
 import { EntityStats } from "@/types/EntityStats";
-import { useMemo } from "react";
+import { useContext, useMemo } from "react";
 import { CastableEffect } from "@/types/CastableEffect";
 import { calculateCastableEffect } from "@/lib/effects/EffectsHelpers";
 import { Castable } from "@/types/Castable";
 import { castableCardStyles, hoverEffects } from "./CastableCard.styles";
 import CastableEffectCard from "./castable-effect-card/CastableEffectCard";
+import { getItemLevels } from "@/lib/items/ItemLevelsHelpers";
+import RestatorContext from "@/contexts/RestatorContext";
+import ItemLevelBadge from "@/components/item-level/ItemLevel";
+
+const itemLevels = getItemLevels();
 
 export default function CastableCard({
   totalStats,
@@ -19,6 +24,12 @@ export default function CastableCard({
   onSelectCastable: (castable: Castable) => void;
   onDeselectCastable: (castableName: string) => void;
 }) {
+  const restatorContext = useContext(RestatorContext);
+
+  const unsufficientLevel: boolean = useMemo(() => {
+    return restatorContext.level < castable.level;
+  }, [restatorContext, castable.level]);
+
   const effects: CastableEffect[] = useMemo(() => {
     const effects = [];
 
@@ -72,6 +83,10 @@ export default function CastableCard({
         Object.assign(e.currentTarget.style, hoverEffects.cardDefault);
       }}
     >
+      <ItemLevelBadge
+        level={castable.level}
+        insufficientLevel={unsufficientLevel}
+      />
       <div
         style={castableCardStyles.imageContainer(castable.type, castable.name)}
       ></div>

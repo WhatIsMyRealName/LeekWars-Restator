@@ -5,6 +5,12 @@ import {
   hoverEffects,
 } from "./EquipableComponentCard.styles";
 import ComponentStatCard from "./component-stat-card/ComponentStatCard";
+import { useContext, useMemo } from "react";
+import RestatorContext from "@/contexts/RestatorContext";
+import ItemLevelBadge from "@/components/item-level/ItemLevel";
+import { getItemLevels } from "@/lib/items/ItemLevelsHelpers";
+
+const itemLevels = getItemLevels();
 
 export default function EquipableComponentCard({
   component,
@@ -17,10 +23,25 @@ export default function EquipableComponentCard({
   equip: () => void;
   unequip: () => void;
 }) {
-  const imageUrl =
-    componentNameToImageUrls[
-      component.name as keyof typeof componentNameToImageUrls
-    ] || "";
+  const restatorContext = useContext(RestatorContext);
+
+  const unsufficientLevel: boolean = useMemo(() => {
+    const requiredLevel =
+      itemLevels[component.name as keyof typeof itemLevels] || 1;
+    return restatorContext.level < requiredLevel;
+  }, [component.name, restatorContext]);
+
+  const itemLevel: number = useMemo(() => {
+    return itemLevels[component.name as keyof typeof itemLevels] || -1;
+  }, [component.name]);
+
+  const imageUrl: string = useMemo(() => {
+    return (
+      componentNameToImageUrls[
+        component.name as keyof typeof componentNameToImageUrls
+      ] || ""
+    );
+  }, [component.name]);
 
   const onCardClick = () => {
     if (equipped) {
@@ -41,6 +62,7 @@ export default function EquipableComponentCard({
         Object.assign(e.currentTarget.style, hoverEffects.cardDefault);
       }}
     >
+      <ItemLevelBadge level={itemLevel} insufficientLevel={unsufficientLevel} />
       <img
         style={equipableComponentCardStyles.image}
         src={imageUrl}

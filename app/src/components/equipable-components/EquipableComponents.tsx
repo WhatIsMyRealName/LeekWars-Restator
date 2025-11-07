@@ -2,14 +2,18 @@ import componentsData from "@/data/components.json";
 import { equipableComponentsStyles } from "./EquipableComponents.styles";
 import EquipableComponentCard from "./equipable-component-card/EquipableComponentCard";
 import { EquipableComponent } from "@/types/EquipableComponent";
-import { useState } from "react";
-import { EntityStats } from "@/types/EntityStats";
-import { getBonusStatsFromComponents } from "@/lib/stats/StatsHelper";
+import { getItemLevels } from "@/lib/items/ItemLevelsHelpers";
+
+const itemLevels = getItemLevels();
 
 const getComponents: () => EquipableComponent[] = () => {
   return Object.values(
     componentsData as unknown as Record<string, EquipableComponent>
-  );
+  ).sort((a, b) => {
+    const levelA = itemLevels[a.name] || 1;
+    const levelB = itemLevels[b.name] || 1;
+    return levelA - levelB;
+  });
 };
 
 const components = getComponents();

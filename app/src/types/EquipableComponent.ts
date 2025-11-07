@@ -7,6 +7,7 @@ export interface EquipableComponent {
   name: string;
   stats: ComponentStat[];
   template: number;
+  level: number;
   equipped?: boolean;
 }
 
