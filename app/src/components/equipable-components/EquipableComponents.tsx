@@ -17,20 +17,6 @@ const getComponents: () => EquipableComponent[] = () => {
 };
 
 const components = getComponents();
-const componentBonuses = [
-  "life",
-  "strength",
-  "wisdom",
-  "agility",
-  "resistance",
-  "science",
-  "magic",
-  "frequency",
-  "cores",
-  "ram",
-  "tp",
-  "mp",
-];
 
 export default function EquipableComponents({
   equippedComponents,
@@ -55,8 +41,6 @@ export default function EquipableComponents({
       (equippedComponents.includes(b) ? 1 : 0) -
       (equippedComponents.includes(a) ? 1 : 0)
   );
-  console.log(components);
-  console.log(componentBonuses);
 
   return (
     <div style={equipableComponentsStyles.container}>
