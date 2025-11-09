@@ -53,7 +53,7 @@ export default function Stats({
   };
 
   return (
-    <div style={statsStyles.container}>
+    <div style={statsStyles.container} className="components-grid-scrollable">
       <h3 style={statsStyles.title}>
         <Level level={level} setLevel={setLevel} />
         <span style={statsStyles.capitalBadge}>

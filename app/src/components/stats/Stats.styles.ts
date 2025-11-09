@@ -25,7 +25,7 @@ export const statsStyles: IStatsStyles = {
     borderRadius: "20px",
     boxShadow:
       "0 15px 35px rgba(102, 126, 234, 0.3), 0 5px 15px rgba(0, 0, 0, 0.1)",
-    overflow: "hidden",
+    overflow: "auto",
     border: "1px solid rgba(255, 255, 255, 0.2)",
     backdropFilter: "blur(20px)",
   },
