@@ -67,7 +67,7 @@ export const statsStyles: IStatsStyles = {
     boxShadow: "0 2px 8px rgba(79, 172, 254, 0.3)",
   },
   headerCell: {
-    padding: "16px 12px",
+    padding: "10px 12px",
     textAlign: "center" as const,
     color: "white",
     fontSize: "16px",
@@ -78,7 +78,7 @@ export const statsStyles: IStatsStyles = {
     position: "relative" as const,
   },
   totalHeaderCell: {
-    padding: "16px 12px",
+    padding: "10px 12px",
     textAlign: "center" as const,
     color: "white",
     fontSize: "16px",
@@ -94,7 +94,7 @@ export const statsStyles: IStatsStyles = {
     borderBottom: "1px solid rgba(0, 0, 0, 0.05)",
   },
   statNameCell: {
-    padding: "16px 16px",
+    padding: "6px 14px",
     fontWeight: "600",
     textTransform: "capitalize" as const,
     backgroundColor: "rgba(102, 126, 234, 0.08)",
@@ -115,7 +115,7 @@ export const statsStyles: IStatsStyles = {
     padding: "2px",
   },
   valueCell: {
-    padding: "16px 12px",
+    padding: "6px 14px",
     textAlign: "center" as const,
     fontSize: "16px",
     fontWeight: "600",
@@ -126,7 +126,7 @@ export const statsStyles: IStatsStyles = {
     transition: "all 0.3s ease",
   },
   investedCell: {
-    padding: "16px 12px",
+    padding: "6px 14px",
     textAlign: "center" as const,
     fontSize: "16px",
     fontWeight: "600",
@@ -146,7 +146,7 @@ export const statsStyles: IStatsStyles = {
     width: "40px",
   }),
   totalCell: {
-    padding: "16px 12px",
+    padding: "6px 14px",
     textAlign: "center" as const,
     fontWeight: "700",
     fontSize: "18px",
