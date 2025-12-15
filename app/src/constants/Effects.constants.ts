@@ -71,6 +71,39 @@ export const EffectIdToStatMap: { [key: number]: keyof EntityStats } = {
   [TYPE_NOVA_DAMAGE]: "science",
   [TYPE_ABSOLUTE_SHIELD]: "resistance",
   [TYPE_RELATIVE_SHIELD]: "resistance",
+};
+
+// EFFECT BOOST TO STATS
+export const EffectNovaBoostClassicToStatMap: {
+  [key: number]: keyof EntityStats;
+} = {
+  [TYPE_BUFF_STRENGTH]: "strength",
+  [TYPE_BUFF_AGILITY]: "agility",
+  [TYPE_BUFF_WISDOM]: "wisdom",
+  [TYPE_BUFF_RESISTANCE]: "resistance",
   [TYPE_BUFF_MP]: "mp",
   [TYPE_BUFF_TP]: "tp",
 };
+
+export const EffectClassicBoostToStatMap: {
+  [key: number]: keyof EntityStats;
+} = {
+  [TYPE_RAW_BUFF_STRENGTH]: "strength",
+  [TYPE_RAW_BUFF_AGILITY]: "agility",
+  [TYPE_RAW_BUFF_WISDOM]: "wisdom",
+  [TYPE_RAW_BUFF_RESISTANCE]: "resistance",
+  [TYPE_RAW_BUFF_MP]: "mp",
+  [TYPE_RAW_BUFF_TP]: "tp",
+  [TYPE_RAW_BUFF_MAGIC]: "magic",
+  [TYPE_RAW_BUFF_SCIENCE]: "science",
+  [TYPE_DAMAGE_RETURN]: "agility",
+};
+
+export const EffectShackleTypes: number[] = [
+  TYPE_SHACKLE_AGILITY,
+  TYPE_SHACKLE_WISDOM,
+  TYPE_SHACKLE_MAGIC,
+  TYPE_SHACKLE_STRENGTH,
+  TYPE_SHACKLE_MP,
+  TYPE_SHACKLE_TP,
+];

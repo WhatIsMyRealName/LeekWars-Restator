@@ -1,9 +1,22 @@
 import {
+  EffectNovaBoostClassicToStatMap as EffectNovaBoostToStatMap,
   EffectIdToStatMap,
   TYPE_RELATIVE_SHIELD,
+  EffectClassicBoostToStatMap,
+  EffectShackleTypes,
 } from "@/constants/Effects.constants";
 import { CastableEffect, CastableEffectTargets } from "@/types/CastableEffect";
 import { EntityStats } from "@/types/EntityStats";
+
+const getEffectTargets = (targetMask: number): CastableEffectTargets => {
+  return {
+    targetEnemies: Boolean(targetMask & 1),
+    targetAllies: Boolean(targetMask & (1 << 1)),
+    targetCaster: Boolean(targetMask & (1 << 2)),
+    targetNonSummons: Boolean(targetMask & (1 << 3)),
+    targetSummons: Boolean(targetMask & (1 << 4)),
+  };
+};
 
 export const calculateCastableEffect = (
   totalStats: EntityStats,
@@ -17,14 +30,47 @@ export const calculateCastableEffect = (
   const statKey = EffectIdToStatMap[effectType];
   const value = totalStats[statKey] || 0;
 
-  const effectTargets: CastableEffectTargets = {
-    targetEnemies: Boolean(targetMask & 1),
-    targetAllies: Boolean(targetMask & (1 << 1)),
-    targetCaster: Boolean(targetMask & (1 << 2)),
-    targetNonSummons: Boolean(targetMask & (1 << 3)),
-    targetSummons: Boolean(targetMask & (1 << 4)),
-  };
-  //   console.log(statKey);
+  const effectTargets: CastableEffectTargets = getEffectTargets(targetMask);
+
+  const isNovaBoostEffect = EffectNovaBoostToStatMap.hasOwnProperty(effectType);
+  if (isNovaBoostEffect) {
+    const boostStatKey = EffectNovaBoostToStatMap[effectType];
+
+    return {
+      ...effectTargets,
+      name: boostStatKey,
+      min: Math.round(effectMin * (1 + totalStats.science / 100)),
+      max: Math.round(effectMax * (1 + totalStats.science / 100)),
+    };
+  }
+
+  const isClassicBoostEffect =
+    EffectClassicBoostToStatMap.hasOwnProperty(effectType);
+  if (isClassicBoostEffect) {
+    const boostStatKey = EffectClassicBoostToStatMap[effectType];
+
+    return {
+      ...effectTargets,
+      name: boostStatKey,
+      min: effectMin,
+      max: effectMax,
+    };
+  }
+
+  const isShackleEffect = EffectShackleTypes.includes(effectType);
+  if (isShackleEffect) {
+    const boostStatKey = "magic";
+    return {
+      ...effectTargets,
+      name: boostStatKey,
+      min: Math.round(
+        effectMin * (1.0 + Math.max(0, totalStats.magic) / 100.0)
+      ),
+      max: Math.round(
+        effectMax * (1.0 + Math.max(0, totalStats.magic) / 100.0)
+      ),
+    };
+  }
 
   if (statKey === undefined) {
     console.warn(`No stat mapping found for effect type ${effectType}`);
