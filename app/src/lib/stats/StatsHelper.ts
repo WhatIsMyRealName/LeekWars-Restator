@@ -146,6 +146,7 @@ export const updateStatsOnAddCapital = (
 ) => {
   const newInvestedStats = { ...investedStats };
   let usedCapital = 0;
+  let addedStats = 0;
 
   for (let i = 0; i < amount; i++) {
     const { totalCost, totalIncrease } = calculateCapitalCostAndStatsIncrease(
@@ -156,6 +157,11 @@ export const updateStatsOnAddCapital = (
 
     newInvestedStats[statKey] += totalIncrease;
     usedCapital += totalCost;
+    addedStats += totalIncrease;
+
+    if (addedStats >= amount) {
+      break;
+    }
   }
 
   return {

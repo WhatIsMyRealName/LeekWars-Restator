@@ -233,8 +233,6 @@ export default function Home() {
         .map((id) => chips.find((c) => c.id === id))
         .filter((c) => c !== undefined);
       setSelectedChips(loadedChips as Castable[]);
-
-      alert("Build imported successfully!");
     };
     reader.readAsText(file);
 
