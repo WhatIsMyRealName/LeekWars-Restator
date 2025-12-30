@@ -1,10 +1,11 @@
 export interface IIndexStyles {
   pageContainer: React.CSSProperties;
-  githubLink: React.CSSProperties;
-  exportLink: React.CSSProperties;
   container: React.CSSProperties;
   topContainer: React.CSSProperties;
   leftSideContainer: React.CSSProperties;
+  actionButtonsContainer: React.CSSProperties;
+  actionButton: React.CSSProperties;
+  importLabel: React.CSSProperties;
   bottomContainer: React.CSSProperties;
   componentsChipsWeaponsContainer: React.CSSProperties;
   rightSideItemContainer: React.CSSProperties;
@@ -17,20 +18,6 @@ export const indexStyles: IIndexStyles = {
     padding: "20px",
     gap: "20px",
     width: "100%",
-  },
-  githubLink: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    zIndex: 1000,
-    cursor: "pointer",
-  },
-  exportLink: {
-    position: "absolute",
-    top: 50,
-    right: 10,
-    cursor: "pointer",
-    zIndex: 1000,
   },
   container: {
     display: "flex",
@@ -46,6 +33,22 @@ export const indexStyles: IIndexStyles = {
     flexWrap: "wrap",
   },
   leftSideContainer: {},
+  actionButtonsContainer: {
+    display: "flex",
+    gap: "10px",
+    alignItems: "center",
+    marginBottom: "10px",
+  },
+  actionButton: {
+    cursor: "pointer",
+    transition: "opacity 0.2s",
+  },
+  importLabel: {
+    cursor: "pointer",
+    display: "flex",
+    alignItems: "center",
+    justifyContent: "center",
+  },
   bottomContainer: {
     width: "100%",
     display: "flex",

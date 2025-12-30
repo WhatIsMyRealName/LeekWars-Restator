@@ -14,11 +14,12 @@ import { Weapon } from "@/types/Weapon";
 import { Chip } from "@/types/Chip";
 import { Castable } from "@/types/Castable";
 import CastableCard from "@/components/castables/castable-card/CastableCard";
-import { exportBuild } from "@/lib/export/ExportHelpers";
+import { exportBuild, importBuild } from "@/lib/export/ExportHelpers";
 import { indexStyles } from "../styles/home.styles";
 import RestatorContext from "@/contexts/RestatorContext";
 import { getItemLevels } from "@/lib/items/ItemLevelsHelpers";
 import { Analytics } from "@vercel/analytics/next";
+import componentsData from "@/data/components.json";
 
 const itemLevels = getItemLevels();
 
@@ -183,6 +184,64 @@ export default function Home() {
     return selectedChips.length > maxChips;
   }, [selectedChips, maxChips]);
 
+  const handleImportBuild = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const file = event.target.files?.[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = (e) => {
+      const content = e.target?.result as string;
+      const buildData = importBuild(content);
+
+      if (!buildData) {
+        alert("Failed to import build. Please check the file format.");
+        return;
+      }
+
+      // Set level
+      setLevel(buildData.level);
+
+      // Set invested stats and capital
+      setInvestedStats(buildData.investedStats);
+      setInvestedCapital(buildData.investedCapital);
+
+      // Set bonus stats
+      setBonusStats(buildData.bonusStats);
+
+      // Load equipped components
+      const componentsDataTyped = componentsData as unknown as Record<
+        string,
+        Omit<EquipableComponent, "level">
+      >;
+      const components = Object.values(componentsDataTyped).map((c) => ({
+        ...c,
+        level: itemLevels[c.name] || 1,
+      }));
+      const loadedComponents = buildData.equippedComponentIds
+        .map((id) => components.find((c) => c.id === id))
+        .filter((c): c is EquipableComponent => c !== undefined);
+      setEquippedComponents(loadedComponents);
+
+      // Load selected weapons
+      const loadedWeapons = buildData.selectedWeaponIds
+        .map((id) => weapons.find((w) => w.item === id))
+        .filter((w) => w !== undefined);
+      setSelectedWeapons(loadedWeapons as Castable[]);
+
+      // Load selected chips
+      const loadedChips = buildData.selectedChipIds
+        .map((id) => chips.find((c) => c.id === id))
+        .filter((c) => c !== undefined);
+      setSelectedChips(loadedChips as Castable[]);
+
+      alert("Build imported successfully!");
+    };
+    reader.readAsText(file);
+
+    // Reset the input so the same file can be imported again
+    event.target.value = "";
+  };
+
   return (
     <RestatorContext.Provider value={{ level }}>
       <Head>
@@ -207,25 +266,12 @@ export default function Home() {
         className={`${geistSans.variable} ${geistMono.variable}`}
       >
         <Analytics />
-        <a
-          style={indexStyles.githubLink}
-          target="_blank"
-          href="https://github.com/Bux42/LeekWars-Restator"
-        >
-          <img
-            alt="github"
-            height={32}
-            width={32}
-            src="https://cdn3.iconfinder.com/data/icons/social-media-2169/24/social_media_social_media_logo_github-512.png"
-          />
-        </a>
-        <img
-          src="/assets/images/icons/save.png"
-          alt="export"
-          style={indexStyles.exportLink}
-          onClick={() =>
-            exportBuild(totalStats, selectedChips, selectedWeapons, level)
-          }
+        <input
+          id="import-build"
+          type="file"
+          accept=".json"
+          onChange={handleImportBuild}
+          style={{ display: "none" }}
         />
         <div style={indexStyles.container} className="container">
           <div style={indexStyles.topContainer} className="topContainer">
@@ -233,6 +279,53 @@ export default function Home() {
               style={indexStyles.leftSideContainer}
               className="statsContainer"
             >
+              <div style={indexStyles.actionButtonsContainer}>
+                <a
+                  target="_blank"
+                  href="https://github.com/Bux42/LeekWars-Restator"
+                  title="GitHub Repository"
+                  style={indexStyles.actionButton}
+                >
+                  <img
+                    alt="github"
+                    height={32}
+                    width={32}
+                    src="https://cdn3.iconfinder.com/data/icons/social-media-2169/24/social_media_social_media_logo_github-512.png"
+                  />
+                </a>
+                <img
+                  src="/assets/images/icons/export.png"
+                  alt="export"
+                  title="Export Build"
+                  height={32}
+                  width={32}
+                  style={indexStyles.actionButton}
+                  onClick={() =>
+                    exportBuild(
+                      level,
+                      investedStats,
+                      investedCapital,
+                      bonusStats,
+                      equippedComponents,
+                      selectedChips,
+                      selectedWeapons
+                    )
+                  }
+                />
+                <label
+                  htmlFor="import-build"
+                  title="Import Build"
+                  style={indexStyles.importLabel}
+                >
+                  <img
+                    src="/assets/images/icons/import.png"
+                    alt="import"
+                    height={32}
+                    width={32}
+                    style={indexStyles.actionButton}
+                  />
+                </label>
+              </div>
               <Stats
                 baseStats={baseStats}
                 investedStats={investedStats}
