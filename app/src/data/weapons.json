@@ -1069,6 +1069,51 @@
     "passive_effects": [],
     "template": 4
   },
+  "40": {
+    "id": 40,
+    "name": "quantum_rifle",
+    "level": 281,
+    "min_range": 5,
+    "max_range": 10,
+    "launch_type": 7,
+    "effects": [
+      {
+        "id": 1,
+        "value1": 68,
+        "value2": 7,
+        "turns": 0,
+        "targets": 31,
+        "modifiers": 0,
+        "type": 1
+      },
+      {
+        "id": 30,
+        "value1": 68,
+        "value2": 7,
+        "turns": 0,
+        "targets": 31,
+        "modifiers": 0,
+        "type": 1
+      },
+      {
+        "id": 61,
+        "value1": 0,
+        "value2": 0,
+        "turns": 0,
+        "targets": 31,
+        "modifiers": 4,
+        "type": 0
+      }
+    ],
+    "cost": 10,
+    "area": 9,
+    "los": true,
+    "template": 40,
+    "passive_effects": [],
+    "forgotten": false,
+    "item": 428,
+    "max_uses": 1
+  },
   "5": {
     "area": 1,
     "cost": 5,
