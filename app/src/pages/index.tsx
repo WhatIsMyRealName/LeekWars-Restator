@@ -292,8 +292,8 @@ export default function Home() {
                   />
                 </a>
                 <img
-                  src="/assets/images/icons/export.png"
-                  alt="export"
+                  src="/assets/images/icons/save.png"
+                  alt="save"
                   title="Export Build"
                   height={32}
                   width={32}
@@ -316,13 +316,26 @@ export default function Home() {
                   style={indexStyles.importLabel}
                 >
                   <img
-                    src="/assets/images/icons/import.png"
-                    alt="import"
+                    src="/assets/images/icons/load.png"
+                    alt="load"
                     height={32}
                     width={32}
                     style={indexStyles.actionButton}
                   />
                 </label>
+                <a
+                  href="https://github.com/Bux42/Leekwars-Tampermonkey"
+                  target="_blank"
+                  title="Extract from leekwars page"
+                >
+                  <img
+                    src="/assets/images/icons/import_leekwars.png"
+                    alt="import_leekwars"
+                    height={32}
+                    width={32}
+                    style={indexStyles.actionButton}
+                  />
+                </a>
               </div>
               <Stats
                 baseStats={baseStats}
