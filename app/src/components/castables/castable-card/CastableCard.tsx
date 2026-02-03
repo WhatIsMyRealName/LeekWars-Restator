@@ -52,7 +52,7 @@ export default function CastableCard({
     let maxCast = 0;
     let originalTp = totalStats.tp || 0;
 
-    for (let i = 0; i < castable.max_uses; i++) {
+    for (let i = 0; i < Math.max(castable.max_uses, 1); i++) {
       if (originalTp >= castable.cost) {
         maxCast++;
         originalTp -= castable.cost;
