@@ -43,8 +43,15 @@ export default function CastableList({
     setFilterStats(updatedFilterStats);
   };
 
+    // sort castables to show equipped ones first
+  const allCastablesSorted = [...castables].sort(
+    (a: Castable, b: Castable) =>
+      (selectedCastables.includes(b) ? 1 : 0) -
+      (selectedCastables.includes(a) ? 1 : 0)
+  );
+
   // filter castables based on selected stats
-  const filteredCastables = castables.filter((castable) => {
+  const filteredCastables = allCastablesSorted.filter((castable) => {
     if (filterStats.length === 0) {
       return true;
     }
@@ -81,7 +88,8 @@ export default function CastableList({
             totalStats={totalStats}
             onDeselectCastable={onDeselectCastable}
             onSelectCastable={onSelectCastable}
-            selected={selectedCastables.some((s) => s.name === castable.name)}
+            equipped={selectedCastables.some((s) => s.name === castable.name)}
+            inSelectedContainer={false}
           />
         ))}
       </div>

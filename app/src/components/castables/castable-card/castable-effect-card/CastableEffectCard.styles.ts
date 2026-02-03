@@ -6,7 +6,11 @@ export interface ICastableCardStyles {
 }
 
 export const castableEffectCardStyles: ICastableCardStyles = {
-  container: { display: "flex", gap: "4px", alignItems: "center" },
+  container: {
+    display: "flex",
+    gap: "4px",
+    alignItems: "center",
+  },
   effectValueContainer: {
     fontWeight: "bold",
     display: "flex",

@@ -6,7 +6,7 @@ import {
 } from "../CastableUtils";
 
 export interface ICastableCardStyles {
-  gridContainer: CSSProperties;
+  gridContainer: (equipped: boolean) => CSSProperties;
   imageContainer: (
     castableType: CastableType,
     castableName: string
@@ -16,9 +16,9 @@ export interface ICastableCardStyles {
 }
 
 export const castableCardStyles: ICastableCardStyles = {
-  gridContainer: {
+  gridContainer: (equipped)  => ({
     padding: "10px",
-    backgroundColor: "white",
+    backgroundColor: equipped ? "#d3d3d3ff" : "#fff",
     border: "1px solid #e0e0e0",
     borderRadius: "6px",
     boxShadow: "0 2px 4px rgba(0, 0, 0, 0.1)",
@@ -29,7 +29,7 @@ export const castableCardStyles: ICastableCardStyles = {
     gap: "8px",
     display: "flex",
     flexDirection: "column" as const,
-  },
+  }),
   imageContainer: (type: CastableType, name: string) => ({
     backgroundImage: `url("${
       type === "weapon"

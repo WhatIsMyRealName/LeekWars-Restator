@@ -11,13 +11,15 @@ import ItemLevelBadge from "@/components/item-level/ItemLevel";
 export default function CastableCard({
   totalStats,
   castable,
-  selected,
+  equipped,
+  inSelectedContainer,
   onSelectCastable,
   onDeselectCastable,
 }: {
   totalStats: EntityStats;
   castable: Castable;
-  selected?: boolean;
+  equipped: boolean;
+  inSelectedContainer: boolean;
   onSelectCastable: (castable: Castable) => void;
   onDeselectCastable: (castableName: string) => void;
 }) {
@@ -64,7 +66,7 @@ export default function CastableCard({
   }, [castable.max_uses, castable.cost, totalStats]);
 
   const onCardClick = () => {
-    if (selected) {
+    if (equipped) {
       onDeselectCastable(castable.name);
     } else {
       onSelectCastable(castable);
@@ -73,7 +75,7 @@ export default function CastableCard({
 
   return (
     <div
-      style={castableCardStyles.gridContainer}
+      style={castableCardStyles.gridContainer(equipped && !(inSelectedContainer))}
       onClick={onCardClick}
       onMouseEnter={(e) => {
         Object.assign(e.currentTarget.style, hoverEffects.cardHover);

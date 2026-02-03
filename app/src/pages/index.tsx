@@ -367,7 +367,8 @@ export default function Home() {
                     onDeselectCastable={onDeselectCastable}
                     onSelectCastable={onSelectCastable}
                     totalStats={totalStats}
-                    selected
+                    equipped={true}
+                    inSelectedContainer={true}
                   />
                 ))}
               </div>
@@ -390,7 +391,8 @@ export default function Home() {
                     onDeselectCastable={onDeselectCastable}
                     onSelectCastable={onSelectCastable}
                     totalStats={totalStats}
-                    selected
+                    equipped={true}
+                    inSelectedContainer={true}
                   />
                 ))}
               </div>
